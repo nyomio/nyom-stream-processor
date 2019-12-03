@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.inepex.nyomagestreamprocessor.api";
+
+message PairRequest{
+    string pairingCode = 1;
+}
+
+message PairResponse{
+    string nativeId = 1;
+}

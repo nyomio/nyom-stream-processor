@@ -1,0 +1,17 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+import "generatedNyom/Location.proto";
+import "generatedNyom/Event.proto";
+import "generatedNyom/Status.proto";
+import "generatedNyom/Mapping.proto";
+
+message Nyom {
+  int64 deviceId = 1;
+  int64 timestampMillis = 2;
+  com.inepex.nyomagestreamprocessor.api.generatednyom.Location location = 3;
+  com.inepex.nyomagestreamprocessor.api.generatednyom.Event event = 4;
+  com.inepex.nyomagestreamprocessor.api.generatednyom.Status status = 5;
+  com.inepex.nyomagestreamprocessor.api.generatednyom.Mapping mapping = 6;
+}
+

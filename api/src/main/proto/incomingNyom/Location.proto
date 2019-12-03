@@ -1,0 +1,31 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.incomingnyom;
+
+message Location {
+  // Java timestamp - millisecs since January 1st 1970
+  int64 timestamp = 1;
+
+  // Lat and lon are latitude-longitude pairs in the E5 representation
+  // (degrees multiplied by 10**5 and rounded to the nearest integer).
+  // Latitudes should be in the range +/- 90 degrees and longitude should be in
+  // the range +/- 180 degrees (inclusive).
+  // The accuracy is about 1.1 meters on the equator
+  sint32 lat = 2;
+
+  // Lat and lon are latitude-longitude pairs in the E5 representation
+  // (degrees multiplied by 10**5 and rounded to the nearest integer).
+  // Latitudes should be in the range +/- 90 degrees and longitude should be in
+  // the range +/- 180 degrees (inclusive).
+  // The accuracy is about 1.1 meters on the equator
+  sint32 lon = 3;
+
+  sint32 altitudeMeters = 4;
+
+  // north = 0 east=90 - unit: degrees
+  sint32 headingDegrees = 5;
+
+  // Unit - decimeters per second
+  sint32 speedDMPS = 6;
+
+  int32 accuracyMeter = 7;
+}

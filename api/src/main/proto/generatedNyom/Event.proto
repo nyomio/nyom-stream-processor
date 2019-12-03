@@ -1,0 +1,43 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+message Event {
+  bool sos = 1;
+  int64 latestSosTimestamp = 2;
+  bool userTurnOn = 3;
+  int64 latestUserTurnOn = 4;
+  bool userTurnOff = 5;
+  int64 latestUserTurnOff = 6;
+  int32 sleepStateChange = 7;
+  int64 latestSleepStateChange = 8;
+  bool trafficLimitExceeded = 9;
+  int64 latestTrafficLimitExceeded = 10;
+  bool haveNet = 11;
+  int64 latestHaveNet = 12;
+  bool netLost = 13;
+  int64 latestNetLost = 14;
+  bool haveGps = 15;
+  int64 latestHaveGps = 16;
+  bool gpsLost = 17;
+  int64 latestGpsLost = 18;
+  bool wifiOn = 19;
+  int64 latestWifiOn = 20;
+  bool wifiOff = 21;
+  int64 latestWifiOff = 22;
+  bool cellularNetOn = 23;
+  int64 latestCellularNetOn = 24;
+  bool cellularNetOff = 25;
+  int64 latestCellularNetOff = 26;
+  bool locationCollectionStarted = 27;
+  int64 latestLocationCollectionStarted = 28;
+  bool locationCollectionStopped = 29;
+  int64 latestLocationCollectionStopped = 30;
+  bool waypoint = 31;
+  int64 latestWaypoint = 32;
+  bool tripStart = 33;
+  int64 latestTripStart = 34;
+  bool tripStop = 35;
+  int64 latestTripStop = 36;
+  int32 turnOnValue = 37;
+  int64 latestTurnOnValue = 38;
+}

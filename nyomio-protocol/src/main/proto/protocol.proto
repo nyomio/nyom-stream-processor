@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+import "pair.proto";
+import "incomingNyom/Location.proto";
+import "incomingNyom/Status.proto";
+import "incomingNyom/Events.proto";
+
+option java_multiple_files = true;
+option java_package = "com.inepex.nyomagestreamprocessor.api.incomingnyom";
+option java_outer_classname = "NyomIoProtocol";
+
+service NyomIo {
+  // Interface for sending the tracklog
+  rpc nyom (stream Nyomage) returns (stream ServerPushMessage);
+
+  rpc uploadLogs (stream LogMessage) returns (DoneResponse);
+
+  rpc uploadDetailedRoute (stream Route) returns (DoneResponse);
+
+  rpc uploadConfig (Config) returns (DoneResponse);
+  
+  rpc pair(PairRequest) returns (PairResponse);
+}
+
+// Base package for sending tracking related data to the server
+message Nyomage {
+  int32 seqNum = 1;
+  string nativeId = 2; // Should be set only for the first Nyomage of a stream
+  repeated com.inepex.nyomagestreamprocessor.api.incomingnyom.Location location = 3;
+  repeated com.inepex.nyomagestreamprocessor.api.incomingnyom.Status status = 4;
+  repeated com.inepex.nyomagestreamprocessor.api.incomingnyom.Events events = 5;
+}
+
+// actaully we do not need to send success, as we should call onErrorInstead!
+message ServerPushMessage {
+  int32 nyomageResponseSeqNum = 1;
+  LogUploadRequest logUploadRequest = 2;
+  Config pushedConfig = 3;
+}
+
+message DoneResponse {
+}
+
+message LogMessage {
+  string nativeId = 1;
+  int64 timestamp = 2;
+  string logLine = 3;
+}
+
+message LogUploadRequest {
+  int64 fromTimestamp = 1;
+  int64 toTimestamp = 2;
+}
+
+message Route {
+  string nativeId = 1;
+  repeated com.inepex.nyomagestreamprocessor.api.incomingnyom.Location locationDiffs = 2;
+}
+
+message Config {
+  repeated KeyValue parameter = 1;
+  string nativeId = 2;
+  bool requestRestart = 3;
+}
+
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
+
+

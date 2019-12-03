@@ -1,0 +1,10 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+message Mapping {
+  string objectId1 = 1;
+  string objectId2 = 2;
+  string objectId3 = 3;
+}
+
+

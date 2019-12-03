@@ -1,0 +1,7 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+message GeoPoint {
+  double lat = 1;
+  double lon = 2;
+}

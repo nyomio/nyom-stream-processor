@@ -1,0 +1,24 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.incomingnyom;
+
+message Status {
+
+  // Java timestamp - millisecs since January 1st 1970
+  int64 timestamp = 1;
+
+  // info about device - OS version, manufacturer, type
+  string deviceInfo = 2;
+
+  // battery voltage in milliVolts
+  int32 batteryVoltage = 3;
+
+  // battery percent
+  int32 batteryPercent = 4;
+
+  int32 gpsSatNumInFix = 5;
+  int32 gpsAllSatNum = 6;
+
+  string accuracyStats = 7;
+  string acclrmtrStats = 8;
+
+}

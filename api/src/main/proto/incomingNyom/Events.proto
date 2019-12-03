@@ -1,0 +1,49 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.incomingnyom;
+
+message Events {
+
+  // Java timestamp - milliseconds since January 1st 1970
+  int64 timestamp = 1;
+
+  bool sos = 2;
+
+  bool userTurnOn = 3;
+  bool userTurnOff = 4;
+
+  // 1 - Awake
+  // 2 - LocationSleep
+  // 3 - AccelerometerSleep
+  // 4 - AcceleremeterAndLocationSleep
+  int32 sleepStateChange = 5;
+
+  bool trafficLimitExceeded = 7;
+
+  bool haveNet = 8;
+  bool netLost = 9;
+
+  bool haveGps = 10;
+  bool gpsLost = 11;
+
+  bool wifiOn = 12;
+  bool wifiOff = 13;
+
+  bool cellularNetOn = 14;
+  bool cellularNetOff = 15;
+
+  bool locationCollectionStarted = 16;
+  bool locationCollectionStopped = 17;
+
+  // mark a point this is not used for aiding segmentation yet)
+  bool waypoint = 18;
+
+  bool tripStart = 19;
+  bool tripStop = 20;
+
+  // 1 - manual turn Off / private
+  // 2 - forcePrivate
+  // 3 - autoPrivate at given hour
+  // 4 - turn On / business
+  int32 turnOnValue = 21;
+
+}

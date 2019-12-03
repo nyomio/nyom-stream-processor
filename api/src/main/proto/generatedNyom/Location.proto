@@ -1,0 +1,14 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+import "generatedNyom/GeoPoint.proto";
+
+message Location{
+  com.inepex.nyomagestreamprocessor.api.generatednyom.GeoPoint coordinates = 1;
+  int32 altitudeMeters = 2;
+  int32 headingDegrees = 3;
+  int32 speedDMPS = 4;
+  int32 accuracyMeter = 5;
+  bool interpolated = 6;
+}
+

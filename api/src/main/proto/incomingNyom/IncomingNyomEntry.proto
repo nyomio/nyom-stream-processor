@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.incomingnyom;
+
+import "incomingNyom/Location.proto";
+import "incomingNyom/Status.proto";
+import "incomingNyom/Events.proto";
+
+message IncomingNyomEntry {
+  string nativeId = 1;
+  oneof entry {
+    com.inepex.nyomagestreamprocessor.api.incomingnyom.Location location = 2;
+    com.inepex.nyomagestreamprocessor.api.incomingnyom.Status status = 3;
+    com.inepex.nyomagestreamprocessor.api.incomingnyom.Events events = 4;
+  }
+
+}

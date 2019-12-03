@@ -1,0 +1,12 @@
+syntax = "proto3";
+package com.inepex.nyomagestreamprocessor.api.generatednyom;
+
+message Status {
+  string deviceInfo = 1;
+  int32 batteryVoltageMv = 2;
+  int32 batteryPercent = 3;
+  int32 gpsSatNumInFix = 4;
+  int32 gpsAllSatNum = 5;
+  string accuracyStats = 6;
+  string acclrmtrStats = 7;
+}
