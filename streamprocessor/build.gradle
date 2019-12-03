@@ -51,7 +51,10 @@ tasks.withType(JavaCompile) {
 //applicationDefaultJvmArgs = ["-Dlog4j.configuration=log4j.properties"]
 
 repositories {
-    maven { url "http://download.osgeo.org/webdav/geotools"}
+    mavenCentral()
+    jcenter()
+    maven { url "https://repository.apache.org/content/repositories/snapshots/" }
+    maven { url "http://download.osgeo.org/webdav/geotools" }
     maven {
         credentials {
             username "$inepexInternalMavenUser"
@@ -59,9 +62,6 @@ repositories {
         }
         url "http://maven.inepex.com/repository/internal/"
     }
-    mavenCentral()
-    jcenter()
-    maven { url "https://repository.apache.org/content/repositories/snapshots/" }
     mavenLocal()
 }
 
@@ -72,8 +72,12 @@ configurations {
 
 dependencies {
     compile "org.locationtech.jts:jts-core:${jtsVersion}"
-    compile "org.geotools:gt-main:${geoToolsVersion}"
-    compile "org.geotools:gt-referencing:${geoToolsVersion}"
+    compile("org.geotools:gt-main:${geoToolsVersion}") {
+        exclude group: "javax.media", module: "jai_core"
+    }
+    compile("org.geotools:gt-referencing:${geoToolsVersion}") {
+        exclude group: "javax.media", module: "jai_core"
+    }
     compile "ch.qos.logback:logback-classic:${logbackVersion}"
     compile "ch.qos.logback:logback-core:${logbackVersion}"
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
@@ -109,6 +113,12 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+kapt {
+    arguments {
+        arg("mapstruct.unmappedTargetPolicy", "IGNORE")
+    }
+}
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'nyomage-streamprocessor',
@@ -116,7 +126,11 @@ task fatJar(type: Jar) {
                 'Main-Class': 'com.inepex.nyomagestreamprocessor.AppKt'
     }
     baseName = project.name + '-all'
-    from { (configurations.runtime - configurations.provided).collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
     with jar
 }
 
