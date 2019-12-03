@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nyomage-webapi
+  namespace: stream
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        task: api
+        k8s-app: nyomage
+    spec:
+      containers:
+        - name: devicemanager
+          image: registry.k8s.inepex.net:444/nyomage-streamprocessor:0.4
+          imagePullPolicy: Always
+          env:
+            - name: logstashAddress
+              value: logging-logstash.stream.svc.cluster.local:4560
+            - name: testCompanyApiUrl
+              value: http://localhost:8083
+#              value: http://nyomage-api.stream.svc.cluster.local:8083
+          command: ["java"]
+          args: ["-Xms100M", "-Xmx100M", "-cp", "/root/nyomage-streamprocessor-all-0.1.jar", "com.inepex.nyomagestreamprocessor.BasicDeviceManagerAppKt"]
+        - name: companyapi
+          image: registry.k8s.inepex.net:444/nyomage-streamprocessor:0.4
+          imagePullPolicy: Always
+          env:
+            - name: logstashAddress
+              value: logging-logstash.stream.svc.cluster.local:4560
+          command: ["java"]
+          args: ["-Xms100M", "-Xmx100M", "-cp", "/root/nyomage-streamprocessor-all-0.1.jar", "com.inepex.nyomagestreamprocessor.CompanyApiTestImplAppKt"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    task: api
+    kubernetes.io/name: nyomage
+  name: nyomage-api
+  namespace: stream
+spec:
+  ports:
+    - port: 8082
+      targetPort: 8082
+      name: devicemanager-api
+    - port: 8083
+      targetPort: 8083
+      name: company-api
+  selector:
+    k8s-app: nyomage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nyomage-nyomioprotocol
+  namespace: stream
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        task: api
+        k8s-app: nyomage-nyomioprotocol
+    spec:
+      containers:
+        - name: nyomage-nyomioprotocol
+          image: registry.k8s.inepex.net:444/nyomage-nyomio_protocol:0.3
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: ca-cert
+              mountPath: /root/cert
+              readOnly: true
+          env:
+            - name: kafkaAddress
+              value: bootstrap.stream.svc.cluster.local:9092
+            - name: logstashAddress
+              value: logging-logstash.stream.svc.cluster.local:4560
+            - name: keyPass
+              value: ine123
+            - name: storePasss
+              value: ine123
+            - name: elasticHost
+              value: eck-test-es.stream.svc.cluster.local
+            - name: elasticUser
+              value: elastic
+            - name: elasticPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: eck-test-elastic-user
+                      key: elastic
+          command: ["/bin/sh", "-c"]
+          args:
+            - keytool -import -noprompt -v -trustcacerts -file /root/cert/ca.pem -keystore /root/keystore_test.jks -keypass $(keyPass) -storepass $(storePasss); cd /root/nyomage-nyomio_protocol; bin/nyomage-nyomio_protocol;
+      volumes:
+        - name: ca-cert
+          secret:
+            secretName: eck-test-ca
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    task: api
+    kubernetes.io/name: nyomage-nyomioprotocol
+  name: nyomage-nyomioprotocol
+  namespace: stream
+spec:
+  ports:
+    - port: 9500 
+      targetPort: 9500 
+  selector:
+    k8s-app: nyomage-nyomioprotocol
+---
+
+#apiVersion: extensions/v1beta1
+#kind: Deployment
+#metadata:
+  #name: nyomage-nyomproducer
+  #namespace: stream
+#spec:
+  #replicas: 1
+  #template:
+    #metadata:
+      #labels:
+        #task: api
+        #k8s-app: nyomage-producer
+    #spec:
+      #containers:
+        #- name: producer
+          #image: registry.k8s.inepex.net/nyomage-streamprocessor:0.2
+          #imagePullPolicy: Always
+          #volumeMounts:
+            #- name: ca-cert
+              #mountPath: /root/cert
+              #readOnly: true
+          #env:
+            #- name: kafkaAddress
+              #value: bootstrap.stream.svc.cluster.local:9092
+            #- name: logstashAddress
+              #value: logging-logstash.stream.svc.cluster.local:4560
+            #- name: keyPass
+              #value: ine123
+            #- name: storePasss
+              #value: ine123
+            #- name: elasticHost
+              #value: eck-test-es.stream.svc.cluster.local
+            #- name: elasticUser
+              #value: elastic
+            #- name: elasticPassword
+              #valueFrom:
+                  #secretKeyRef:
+                      #name: eck-test-elastic-user
+                      #key: elastic
+          #command: ["/bin/sh", "-c"]
+          #args:
+            #- keytool -import -noprompt -v -trustcacerts -file /root/cert/ca.pem -keystore /root/keystore_test.jks -keypass $(keyPass) -storepass $(storePasss);
+              #java -Xms100M -Xms100M -cp /root/nyomage-streamprocessor-all-0.1.jar com.inepex.nyomagestreamprocessor.DummyIncomingNyomProducerAppKt;
+      #volumes:
+        #- name: ca-cert
+          #secret:
+            #secretName: eck-test-ca

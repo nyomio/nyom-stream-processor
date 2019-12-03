@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kafka-manager
+  namespace: stream
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kafka
+        component: manager
+    spec:
+      containers:
+        - name: manager
+          image: kafkamanager/kafka-manager
+          ports:
+            - containerPort: 9000
+              name: ui
+          env:
+            - name: ZK_HOSTS
+              value: zk-cs.stream.svc.cluster.local:2181
+            - name: KAFKA_MANAGER_AUTH_ENABLED
+              value: "true"
+            - name: KAFKA_MANAGER_USERNAME
+              value: admin
+            - name: KAFKA_MANAGER_PASSWORD
+              value: 1n3p3x
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-manager
+  namespace: stream
+spec:
+  ports:
+    - name: ui
+      port: 9000
+  selector:
+    app: kafka
+    component: manager
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  generation: 1
+  labels:
+    cattle.io/creator: norman
+  name: kafka-manager
+  namespace: stream
+spec:
+  rules:
+    - host: kafka-manager.k8s.inepex.net
+      http:
+        paths:
+          - backend:
+              serviceName: kafka-manager
+              servicePort: 9000
+status:
+  loadBalancer: {}
