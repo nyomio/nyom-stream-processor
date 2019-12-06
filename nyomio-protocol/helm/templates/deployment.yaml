@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nyomio-protocol
+  name: {{ .Release.Name }}-nyomio-protocol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nyomio-protocol
+  template:
+    metadata:
+      labels:
+        app: nyomio-protocol
+    spec:
+      containers:
+        - name: nyomio-protocol
+          image: streamprocessor_nyomio-protocol
+          imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+#          volumeMounts:
+#            - name: ca-cert
+#              mountPath: /root/cert
+#              readOnly: true
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-streamprocessor-config
+#          env:
+#            - name: elasticPassword
+#              valueFrom:
+#                  secretKeyRef:
+#                      name: eck-test-elastic-user
+#                      key: elastic
+#          command: ["/bin/sh", "-c"]
+#          args:
+#            - keytool -import -noprompt -v -trustcacerts -file /root/cert/ca.pem -keystore /root/keystore_test.jks -keypass $(keyPass) -storepass $(storePasss); cd /root/nyomage-nyomio_protocol; bin/nyomage-nyomio_protocol;
+#      volumes:
+#        - name: ca-cert
+#          secret:
+#            secretName: eck-test-ca

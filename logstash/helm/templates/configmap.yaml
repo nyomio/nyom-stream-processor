@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    task: logging
+    k8s-app: logstash
+data:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    path.config: /usr/share/logstash/pipeline
+    xpack.management.elasticsearch.hosts: ["https://eck-test-es.stream.svc.cluster.local:9200"]
+    xpack.management.elasticsearch.username: elastic
+    xpack.management.elasticsearch.password: ${elasticPassword}
+  pipeline.conf: "
+    input {\n
+        tcp {\n
+                port => 4560\n
+                codec => json_lines\n
+        }\n
+}\n
+
+output {\n
+        elasticsearch {\n
+                user => elastic\n
+                password => \"${elasticPassword}\"\n
+                hosts => [\"https://eck-test-es.stream.svc.cluster.local:9200\"]\n
+                cacert => \"/usr/share/logstash/ca.pem/ca.pem\"\n
+                index => \"flink_log-%{+YYYY.MM.dd}\"\n
+        }\n
+}\n"

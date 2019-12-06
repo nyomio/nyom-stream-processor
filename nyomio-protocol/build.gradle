@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.google.protobuf' version '0.8.8'
+    id 'com.google.cloud.tools.jib' version '1.8.0'
 }
 
 ext {
@@ -104,3 +105,12 @@ distributions {
         }
     }
 }
+
+jib {
+    to {
+        image = 'streamprocessor_nyomio-protocol'
+    }
+}
+
+// automatically run jib to generate docker image
+//tasks.build.depjendsOn tasks.jib

@@ -1,0 +1,27 @@
+dependencies:
+- name: streamprocessor-nyomio-protocol
+  repository: file://../../nyomio-protocol/helm
+  version: 0.0.1
+- name: streamprocessor-elastic
+  repository: file://../../elastic/helm
+  version: 0.0.1
+- name: streamprocessor-logstash
+  repository: file://../../logstash/helm
+  version: 0.0.1
+- name: streamprocessor-zookeeper
+  repository: file://../../zookeeper/helm
+  version: 0.0.1
+- name: streamprocessor-kafka
+  repository: file://../../kafka/helm
+  version: 0.0.1
+- name: streamprocessor-flink
+  repository: file://../../flink/helm
+  version: 0.0.1
+- name: streamprocessor-dummy-companyapi-impl
+  repository: file://../../dummy-companyapi-impl/helm
+  version: 0.0.1
+- name: streamprocessor-dummy-devicemanagerapi-impl
+  repository: file://../../dummy-devicemanagerapi-impl/helm
+  version: 0.0.1
+digest: sha256:40a47efdb21ad0b24832880fcc3bd88a04fa4a6bdd30ec2aab381b104571f9d7
+generated: "2019-12-06T16:57:07.521937124+01:00"

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nyomio-protocol
+  name: {{ .Release.Name }}-nyomio-protocol
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: nyomio-protocol
+  ports:
+    - port: 9500
+      targetPort: 9500

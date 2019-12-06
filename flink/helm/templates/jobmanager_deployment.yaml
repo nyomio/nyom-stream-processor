@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      initContainers:
+      - name: keytool
+#        image: registry.k8s.inepex.net:444/javabox:openjdk-11
+        image: openjdk:11
+        command: ['sh', '-c', 'keytool -import -noprompt -v -trustcacerts -file /root/cert/ca.pem -keystore /opt/keystore/keystore_test.jks -keypass $(keyPass) -storepass $(storePasss);chown 9999:9999 /opt/keystore/keystore_test.jks;chmod 777 /opt/keystore/keystore_test.jks']
+        volumeMounts:
+          - name: keystore
+            mountPath: /opt/keystore
+          - name: ca-cert
+            mountPath: /root/cert
+            readOnly: true
+        envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-streamprocessor-config
+        #securityContext:
+            #privileged: true
+      containers:
+        - name: jobmanager
+#          image: registry.k8s.inepex.net:444/flink-logback:latest
+          image: flink-logback
+          imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+          args:
+            - jobmanager
+          ports:
+            - containerPort: 6123
+              name: rpc
+            - containerPort: 6124
+              name: blob
+            - containerPort: 6125
+              name: query
+            - containerPort: 8081
+              name: ui
+          volumeMounts:
+            - name: keystore
+              mountPath: /opt/keystore
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-streamprocessor-config
+          env:
+            - name: JOB_MANAGER_RPC_ADDRESS
+              value: flink-jobmanager
+#            - name: env.java.opts
+#              value: "-Xms1000M -Xmx1000M"
+            - name: elasticPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: eck-test-elastic-user
+                      key: elastic
+#            - name: APP_ID
+#              value: flink-jobmanager
+      volumes:
+        - name: keystore
+          emptyDir: {}
+        - name: ca-cert
+          secret:
+            secretName: eck-test-ca

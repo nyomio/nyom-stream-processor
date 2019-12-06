@@ -1,0 +1,4 @@
+apiVersion: v2
+name: streamprocessor-dummy-devicemanagerapi-impl
+version: 0.0.1
+

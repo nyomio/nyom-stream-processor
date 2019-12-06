@@ -1,0 +1,4 @@
+apiVersion: v2
+name: streamprocessor-flink
+version: 0.0.1
+

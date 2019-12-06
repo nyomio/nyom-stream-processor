@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dummy-companyapi-impl
+  name: {{ .Release.Name }}-dummy-companyapi-impl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy-companyapi-impl
+  template:
+    metadata:
+      labels:
+        app: dummy-companyapi-impl
+    spec:
+      containers:
+        - name: dummy-companyapi-impl
+          image: streamprocessor_dummy-companyapi-impl
+          imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-streamprocessor-config

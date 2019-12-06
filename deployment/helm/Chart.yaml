@@ -1,0 +1,28 @@
+apiVersion: v2
+name: streamprocessor-deployment
+version: 0.0.1
+dependencies:
+  - name: streamprocessor-nyomio-protocol
+    version: 0.0.1
+    repository: "file://../../nyomio-protocol/helm"
+  - name: streamprocessor-elastic
+    version: 0.0.1
+    repository: "file://../../elastic/helm"
+  - name: streamprocessor-logstash
+    version: 0.0.1
+    repository: "file://../../logstash/helm"
+  - name: streamprocessor-zookeeper
+    version: 0.0.1
+    repository: "file://../../zookeeper/helm"
+  - name: streamprocessor-kafka
+    version: 0.0.1
+    repository: "file://../../kafka/helm"
+  - name: streamprocessor-flink
+    version: 0.0.1
+    repository: "file://../../flink/helm"
+  - name: streamprocessor-dummy-companyapi-impl
+    version: 0.0.1
+    repository: "file://../../dummy-companyapi-impl/helm"
+  - name: streamprocessor-dummy-devicemanagerapi-impl
+    version: 0.0.1
+    repository: "file://../../dummy-devicemanagerapi-impl/helm"

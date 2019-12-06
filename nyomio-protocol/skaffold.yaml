@@ -1,0 +1,16 @@
+apiVersion: skaffold/v1
+kind: Config
+build:
+  artifacts:
+    - image: nyomio-protocol-skaffold
+      jib: {}
+deploy:
+  helm:
+    releases:
+      - name: nyomio-protocol
+        chartPath: helm
+        values:
+          image: nyomio-protocol-skaffold
+#  kubectl:
+#    manifests:
+#      - k8s/*.yaml

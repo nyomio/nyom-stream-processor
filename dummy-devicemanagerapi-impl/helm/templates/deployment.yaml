@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dummy-devicemanagerapi-impl
+  name: {{ .Release.Name }}-dummy-devicemanagerapi-impl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy-devicemanagerapi-impl
+  template:
+    metadata:
+      labels:
+        app: dummy-devicemanagerapi-impl
+    spec:
+      containers:
+        - name: dummy-devicemanagerapi-impl
+          image: streamprocessor_dummy-devicemanagerapi-impl
+          imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-streamprocessor-config
