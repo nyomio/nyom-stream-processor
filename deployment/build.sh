@@ -7,7 +7,7 @@ cd ../flink
 cd ../nyomio-protocol
 ./gradlew clean build jibDockerBuild
 
-cd ../streamprocessor
+cd ../flink-pipeline
 ./gradlew clean fatJar
 
 cd ../dummy-companyapi-impl
