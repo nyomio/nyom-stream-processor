@@ -1,39 +1,40 @@
-apiVersion: elasticsearch.k8s.elastic.co/v1alpha1
+apiVersion: elasticsearch.k8s.elastic.co/v1beta1
 kind: Elasticsearch
 metadata:
-  name: eck-test
-  namespace: {{ .Values.global.namespace }}
+  name: {{ .Values.global.elasticId }}
 spec:
-  version: 7.4.0
-  nodes:
-    - nodeCount: {{ if .Values.global.dev }}1{{ else }}3{{ end }}
-      config:
-        node.master: true
-        node.data: true
-        node.ingest: true
-        reindex.remote.whitelist: live-jaeger1.inepex.net:9200
-      podTemplate:
-        metadata:
-          labels:
-            foo: bar
+  version: 7.5.0
+  nodeSets:
+  - name: default
+    count: 1
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          env:
+          - name: ES_JAVA_OPTS
+            value: {{ if .Values.global.dev }}-Xms512M -Xmx512M{{ else }}-Xms2G -Xmx2G{{ end }}
+          resources:
+            requests:
+              memory: {{ if .Values.global.dev }}1Gi{{ else }}4Gi{{ end }}
+            limits:
+              memory: {{ if .Values.global.dev }}1Gi{{ else }}4Gi{{ end }}
+    config:
+      node.master: true
+      node.data: true
+      node.ingest: true
+      node.store.allow_mmap: false
+    volumeClaimTemplates:
+      - metadata:
+          name: data
         spec:
-          containers:
-            - name: elasticsearch
-#              resources:
-#                requests:
-#                  memory: 3Gi
-#                limits:
-#                  memory: 6Gi
-#                  cpu: 4
-      volumeClaimTemplates:
-        - metadata:
-            name: data
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 500M
-            storeageClassName: standard
-#                storage: 300Gi
-#            storageClassName: local-storage # can be any available storage class
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 500M
+          storeageClassName: standard
+  http:
+    tls:
+      certificate:
+        secretName: certsecret

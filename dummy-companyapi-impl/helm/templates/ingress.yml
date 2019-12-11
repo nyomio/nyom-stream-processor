@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dummy-companyapi-impl-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dummy-companyapi-impl.nyomio.local`)
+      kind: Rule
+      priority: 1
+      services:
+        - name: dummy-companyapi-impl
+          port: 8080
+  tls:
+    secretName: certsecret

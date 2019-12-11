@@ -13,5 +13,4 @@ spec:
     - name: ui
       port: 8081
   selector:
-    app: flink
-    component: jobmanager
+    app: flink-jobmanager

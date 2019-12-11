@@ -3,11 +3,10 @@ kind: Service
 metadata:
   labels:
     app: dummy-companyapi-impl
-  name: {{ .Release.Name }}-companyapi-impl
-  namespace: {{ .Values.global.namespace }}
+  name: dummy-companyapi-impl
 spec:
   selector:
     app: dummy-companyapi-impl
   ports:
-    - port: 9500
-      targetPort: 9500
+    - port: 8080
+      targetPort: 8080

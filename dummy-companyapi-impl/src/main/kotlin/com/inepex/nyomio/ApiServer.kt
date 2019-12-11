@@ -20,7 +20,7 @@ class ApiServer @Inject constructor(
             )
 
     fun start() {
-        httpApiServer.start(8083) { method, requestObj ->
+        httpApiServer.start(8080) { method, requestObj ->
             when (method) {
                 Constants.method_GetChangedDeviceToObjectMappingsSince -> {
                     if (requestObj.get("timestampMillis").numberValue() == 0) {

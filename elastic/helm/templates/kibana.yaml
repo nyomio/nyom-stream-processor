@@ -1,0 +1,22 @@
+apiVersion: kibana.k8s.elastic.co/v1beta1
+kind: Kibana
+metadata:
+  name: {{ .Values.global.elasticId }}
+spec:
+  version: 7.5.0
+  count: 1
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              memory: {{ if .Values.global.dev }}512M{{ else }}1Gi{{ end }}
+            limits:
+              memory: {{ if .Values.global.dev }}512M{{ else }}2Gi{{ end }}
+  elasticsearchRef:
+    name: {{ .Values.global.elasticId }}
+  http:
+    tls:
+      certificate:
+        secretName: certsecret

@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logging-logstash
-  namespace: {{ .Values.global.namespace }}
 spec:
   replicas: 1
   selector:
@@ -15,15 +14,18 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: logstash:7.1.1
+          image: logstash:7.5.0
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: streamprocessor-config
           env:
             - name: LS_JAVA_OPTS
               value: "-Xms512M -Xmx512M"
             - name: elasticPassword
               valueFrom:
                   secretKeyRef:
-                      name: eck-test-elastic-user
+                      name: {{ .Values.global.elasticId }}-es-elastic-user
                       key: elastic
           volumeMounts:
             - name: config-volume
@@ -33,7 +35,7 @@ spec:
               mountPath: /usr/share/logstash/pipeline/logstash.conf
               subPath: pipeline.conf
             - name: ca-cert
-              mountPath: /usr/share/logstash/ca.pem
+              mountPath: /usr/share/logstash/cert
               readOnly: true
       volumes:
         - name: config-volume
@@ -41,6 +43,6 @@ spec:
             name: logstash-config
         - name: ca-cert
           secret:
-            secretName: eck-test-ca
+            secretName: {{ .Values.global.elasticId }}-es-http-certs-public
       securityContext:
         fsGroup: 101

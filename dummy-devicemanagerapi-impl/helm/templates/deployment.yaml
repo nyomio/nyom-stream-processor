@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: dummy-devicemanagerapi-impl
-  name: {{ .Release.Name }}-dummy-devicemanagerapi-impl
+  name: dummy-devicemanagerapi-impl
 spec:
   replicas: 1
   selector:
@@ -20,4 +20,4 @@ spec:
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-streamprocessor-config
+                name: streamprocessor-config

@@ -4,7 +4,6 @@ metadata:
   labels:
     app: logstash
   name: logging-logstash
-  namespace: {{ .Values.global.namespace }}
 spec:
   ports:
     - port: 4560

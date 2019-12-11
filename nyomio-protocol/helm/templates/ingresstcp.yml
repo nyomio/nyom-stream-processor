@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: nyomio-protocol-ingresstcp
+spec:
+  entryPoints:
+    - nyomio-protocol
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: nyomio-protocol
+          port: 9500

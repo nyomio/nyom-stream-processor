@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: logstash-ingresstcp
+spec:
+  entryPoints:
+    - logging-logstash
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: logging-logstash
+          port: 4560

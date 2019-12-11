@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: elasticsearch-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`elasticsearch.nyomio.local`)
+      kind: Rule
+      priority: 1
+      services:
+        - name: {{ .Values.global.elasticId }}-es-http
+          port: 9200
+  tls:
+    secretName: certsecret

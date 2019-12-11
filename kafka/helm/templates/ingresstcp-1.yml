@@ -1,0 +1,14 @@
+{{ if .Values.global.dev }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: kafka-outside-1-ingresstcp
+spec:
+  entryPoints:
+    - kafka
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: outside-1
+          port: 32401
+{{ end }}

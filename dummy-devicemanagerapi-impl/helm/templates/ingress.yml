@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dummy-devicemanagerapi-impl-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dummy-devicemangerapi-impl.nyomio.local`)
+      kind: Rule
+      priority: 1
+      services:
+        - name: dummy-devicemanagerapi-impl
+          port: 8080
+  tls:
+    secretName: certsecret

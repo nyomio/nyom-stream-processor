@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flink-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`flink.nyomio.local`)
+      kind: Rule
+      priority: 1
+      services:
+        - name: flink-jobmanager
+          port: 8081
+  tls:
+    secretName: certsecret

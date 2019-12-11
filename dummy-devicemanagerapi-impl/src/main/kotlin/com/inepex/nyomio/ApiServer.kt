@@ -14,7 +14,7 @@ class ApiServer
         ) {
 
     fun start() {
-        httpApiServer.start(8082) { method, paramsObj ->
+        httpApiServer.start(8080) { method, paramsObj ->
             when (method) {
                 "getDeviceInfo" -> HttpResponseStatus.OK to ObjectMapper().writeValueAsString(JsonRpcResponse(DeviceInfo(
                         Device(paramsObj.get("deviceId").asLong()), User(1L), Company(1L, configuration.testCompanyApiUrl))))
