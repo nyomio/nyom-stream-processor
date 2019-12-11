@@ -1,16 +1,32 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
-  name: kibana-ingress
+  name: kibana-ingresstcp
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`kibana.nyomio.local`)
-      kind: Rule
-      priority: 1
+    - match: HostSNI(`kibana.nyomio.local`)
       services:
         - name: {{ .Values.global.elasticId }}-kb-http
           port: 5601
   tls:
+    passthrough: true
     secretName: certsecret
+#
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: kibana-ingress
+#spec:
+#  entryPoints:
+#    - websecure
+#  routes:
+#    - match: Host(`kibana.nyomio.local`)
+#      kind: Rule
+#      priority: 1
+#      services:
+#        - name: {{ .Values.global.elasticId }}-kb-http
+#          port: 5601
+#  tls:
+#    secretName: certsecret
