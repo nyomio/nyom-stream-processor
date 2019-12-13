@@ -34,15 +34,15 @@ spec:
             - name: config-volume
               mountPath: /usr/share/logstash/pipeline/logstash.conf
               subPath: pipeline.conf
-            - name: ca-cert
+            - name: certsecret
               mountPath: /usr/share/logstash/cert
               readOnly: true
       volumes:
         - name: config-volume
           configMap:
             name: logstash-config
-        - name: ca-cert
+        - name: certsecret
           secret:
-            secretName: {{ .Values.global.elasticId }}-es-http-certs-public
+            secretName: certsecret
       securityContext:
         fsGroup: 101

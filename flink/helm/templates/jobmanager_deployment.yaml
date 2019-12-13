@@ -12,27 +12,6 @@ spec:
       labels:
         app: flink-jobmanager
     spec:
-      initContainers:
-      - name: keytool
-#        image: registry.k8s.inepex.net:444/javabox:openjdk-11
-        image: openjdk:11
-        command: ['sh', '-c',
-                  'keytool -import -noprompt -v -trustcacerts
-                  -file /root/cert/ca.crt -keystore /opt/keystore/keystore_test.jks
-                  -keypass $(keyPass) -storepass $(storePasss);chown 9999:9999
-                  /opt/keystore/keystore_test.jks;chmod 777 /opt/keystore/keystore_test.jks'
-        ]
-        volumeMounts:
-          - name: keystore
-            mountPath: /opt/keystore
-          - name: ca-cert
-            mountPath: /root/cert
-            readOnly: true
-        envFrom:
-          - configMapRef:
-              name: streamprocessor-config
-        #securityContext:
-            #privileged: true
       containers:
         - name: jobmanager
 #          image: registry.k8s.inepex.net:444/flink-logback:latest
@@ -50,12 +29,15 @@ spec:
             - containerPort: 8081
               name: ui
           volumeMounts:
-            - name: keystore
-              mountPath: /opt/keystore
+            - name: certsecret
+              mountPath: /root/cert
+              readOnly: true
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
           env:
+            - name: keystorePath
+              value: /root/cert/java_keystore.jks
             - name: JOB_MANAGER_RPC_ADDRESS
               value: flink-jobmanager
 #            - name: env.java.opts
@@ -65,11 +47,8 @@ spec:
                   secretKeyRef:
                       name: {{ .Values.global.elasticId }}-es-elastic-user
                       key: elastic
-#            - name: APP_ID
-#              value: flink-jobmanager
       volumes:
-        - name: keystore
-          emptyDir: {}
-        - name: ca-cert
+        - name: certsecret
           secret:
-            secretName: {{ .Values.global.elasticId }}-es-http-certs-public
+            secretName: certsecret
+

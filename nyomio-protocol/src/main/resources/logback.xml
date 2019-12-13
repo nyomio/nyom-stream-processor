@@ -23,9 +23,9 @@
     </encoder>
   </appender>
 
-  <root level="info">
-    <appender-ref ref="stash"/>
-    <appender-ref ref="file"/>
+  <root level="debug">
+    <!--<appender-ref ref="stash"/>-->
+    <!--<appender-ref ref="file"/>-->
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

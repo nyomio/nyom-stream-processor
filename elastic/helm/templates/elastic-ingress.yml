@@ -1,16 +1,15 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
-  name: elasticsearch-ingress
+  name: elasticsearch-ingsresstcp
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`elasticsearch.nyomio.local`)
-      kind: Rule
-      priority: 1
+    - match: HostSNI(`elasticsearch-{{ .Release.Name }}.nyomio.local`)
       services:
         - name: {{ .Values.global.elasticId }}-es-http
           port: 9200
   tls:
+    passthrough: true
     secretName: certsecret

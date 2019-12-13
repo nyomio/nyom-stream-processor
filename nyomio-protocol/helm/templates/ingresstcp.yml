@@ -4,9 +4,12 @@ metadata:
   name: nyomio-protocol-ingresstcp
 spec:
   entryPoints:
-    - nyomio-protocol
+    - websecure
   routes:
-    - match: HostSNI(`*`)
+    - match: HostSNI(`nyomio-protocol-{{ .Release.Name }}.nyomio.local`)
       services:
         - name: nyomio-protocol
           port: 9500
+  tls:
+    passthrough: true
+    secretName: certsecret

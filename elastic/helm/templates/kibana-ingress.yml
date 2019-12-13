@@ -6,27 +6,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`kibana.nyomio.local`)
+    - match: HostSNI(`kibana-{{ .Release.Name }}.nyomio.local`)
       services:
         - name: {{ .Values.global.elasticId }}-kb-http
           port: 5601
   tls:
     passthrough: true
     secretName: certsecret
-#
-#apiVersion: traefik.containo.us/v1alpha1
-#kind: IngressRoute
-#metadata:
-#  name: kibana-ingress
-#spec:
-#  entryPoints:
-#    - websecure
-#  routes:
-#    - match: Host(`kibana.nyomio.local`)
-#      kind: Rule
-#      priority: 1
-#      services:
-#        - name: {{ .Values.global.elasticId }}-kb-http
-#          port: 5601
-#  tls:
-#    secretName: certsecret

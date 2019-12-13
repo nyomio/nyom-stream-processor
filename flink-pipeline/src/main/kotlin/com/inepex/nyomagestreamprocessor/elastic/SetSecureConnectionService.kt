@@ -33,8 +33,8 @@ class SetSecureConnectionService
 
     private fun getSslContext(): SSLContext {
         val trustStore = KeyStore.getInstance("jks")
-        Files.newInputStream(Paths.get(config.elasticSslKeystorePath)).use { `is` ->
-            trustStore.load(`is`, config.elasticSslKeystorePass.toCharArray())
+        Files.newInputStream(Paths.get(config.keystorePath)).use { `is` ->
+            trustStore.load(`is`, config.keystorePass.toCharArray())
         }
         return SSLContexts.custom()
                 .loadTrustMaterial(trustStore, null)

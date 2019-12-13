@@ -18,23 +18,19 @@ spec:
         - name: nyomio-protocol
           image: streamprocessor_nyomio-protocol
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
-#          volumeMounts:
-#            - name: ca-cert
-#              mountPath: /root/cert
-#              readOnly: true
+          volumeMounts:
+            - name: certsecret
+              mountPath: /root/cert
+              readOnly: true
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
-#          env:
-#            - name: elasticPassword
-#              valueFrom:
-#                  secretKeyRef:
-#                      name: {{ .Values.global.elasticId }}es-elastic-user
-#                      key: elastic
-#          command: ["/bin/sh", "-c"]
-#          args:
-#            - keytool -import -noprompt -v -trustcacerts -file /root/cert/ca.pem -keystore /root/keystore_test.jks -keypass $(keyPass) -storepass $(storePasss); cd /root/nyomage-nyomio_protocol; bin/nyomage-nyomio_protocol;
-#      volumes:
-#        - name: ca-cert
-#          secret:
-#            secretName: {{ .Values.global.elasticId }}-ca
+          env:
+            - name: grpcCertChainPath
+              value: /root/cert/tls.crt
+            - name: grpcPrivateKeyPath
+              value: /root/cert/tls.pkcs8
+      volumes:
+        - name: certsecret
+          secret:
+            secretName: certsecret
