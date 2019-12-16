@@ -21,3 +21,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
+          env:
+            - name: testCompanyApiUrl
+              value: http://dummy-companyapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8080

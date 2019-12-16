@@ -30,14 +30,14 @@ spec:
               name: ui
           volumeMounts:
             - name: certsecret
-              mountPath: /root/cert
+              mountPath: /opt/flink/cert
               readOnly: true
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
           env:
             - name: keystorePath
-              value: /root/cert/java_keystore.jks
+              value: /opt/flink/cert/java_keystore.jks
             - name: JOB_MANAGER_RPC_ADDRESS
               value: flink-jobmanager
 #            - name: env.java.opts

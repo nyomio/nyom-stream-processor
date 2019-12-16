@@ -5,11 +5,10 @@ metadata:
 data:
   kafkaAddress: bootstrap.{{ .Release.Namespace }}.svc.cluster.local:9092
   logstashAddress: logging-logstash.{{ .Release.Namespace }}.svc.cluster.local:4560
-#  keyPass: ine123
   keystorePass: developer
   elasticHost: {{ .Values.global.elasticId }}-es-http.{{ .Release.Namespace }}.svc.cluster.local
   elasticUser: elastic
-  deviceManagerUrl: http://devicemanagerapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8082
+  deviceManagerUrl: http://dummy-devicemanagerapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8080
 #              valueFrom:
 #                  secretKeyRef:
 #                      name: eck-test-elastic-user
