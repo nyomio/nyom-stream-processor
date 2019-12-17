@@ -17,9 +17,9 @@ dependencies:
   - name: streamprocessor-kafka
     version: 0.0.1
     repository: "file://../../kafka/helm"
-  - name: streamprocessor-flink
+  - name: streamprocessor-flink-pipeline
     version: 0.0.1
-    repository: "file://../../flink/helm"
+    repository: "file://../../flink-pipeline/helm"
   - name: streamprocessor-dummy-companyapi-impl
     version: 0.0.1
     repository: "file://../../dummy-companyapi-impl/helm"

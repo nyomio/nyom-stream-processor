@@ -6,8 +6,9 @@ Important. Set docker environment before running this script.
   - minikube: eval $(minikube docker-env)'
 EOF
 
-cd ../flink
+cd ../flink-pipeline/ci
 ./build.sh
+cd ../
 
 cd ../nyomio-protocol
 ./gradlew clean build jibDockerBuild

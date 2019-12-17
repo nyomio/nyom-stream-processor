@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nyomio-protocol
-          image: streamprocessor_nyomio-protocol
+          image: streamprocessor_nyomio-protocol:latest
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
           volumeMounts:
             - name: certsecret

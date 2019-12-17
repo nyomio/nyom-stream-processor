@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-taskmanager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      containers:
+        - name: taskmanager
+          image: streamprocessor_flink-pipeline
+          imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+          args: ["task-manager", "-Djobmanager.rpc.address=flink-jobmanager"]
+          volumeMounts:
+            - name: certsecret
+              mountPath: /opt/flink/cert
+              readOnly: true
+          envFrom:
+            - configMapRef:
+                name: streamprocessor-config
+          env:
+            - name: keystorePath
+              value: /opt/flink/cert/java_keystore.jks
+            #            - name: env.java.opts
+            #              value: "-Xms1000M -Xmx1000M"
+            - name: elasticPassword
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.elasticId }}-es-elastic-user
+                  key: elastic
+      volumes:
+        - name: certsecret
+          secret:
+            secretName: certsecret
+
