@@ -26,6 +26,8 @@ spec:
             - configMapRef:
                 name: streamprocessor-config
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: {{ if .Values.global.dev}}-Xms64m -Xmx64m{{ else }}-Xms256m -Xmx256m{{ end }}
             - name: grpcCertChainPath
               value: /root/cert/tls.crt
             - name: grpcPrivateKeyPath

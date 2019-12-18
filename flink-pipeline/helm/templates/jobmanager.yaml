@@ -28,6 +28,9 @@ spec:
             - containerPort: 8081
               name: ui
           volumeMounts:
+            - name: config-volume
+              mountPath: /opt/flink/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
             - name: certsecret
               mountPath: /opt/flink/cert
               readOnly: true
@@ -39,14 +42,15 @@ spec:
               value: /opt/flink/cert/java_keystore.jks
             - name: JOB_MANAGER_RPC_ADDRESS
               value: flink-jobmanager
-            #            - name: env.java.opts
-            #              value: "-Xms1000M -Xmx1000M"
             - name: elasticPassword
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.global.elasticId }}-es-elastic-user
                   key: elastic
       volumes:
+        - name: config-volume
+          configMap:
+            name: flink-config
         - name: certsecret
           secret:
             secretName: certsecret

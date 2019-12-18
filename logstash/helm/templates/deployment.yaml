@@ -21,7 +21,7 @@ spec:
                 name: streamprocessor-config
           env:
             - name: LS_JAVA_OPTS
-              value: "-Xms512M -Xmx512M"
+              value: {{ if .Values.global.dev }}"-Xms128M -Xmx128M"{{ else }}"-Xms512M -Xmx512M"{{ end }}
             - name: elasticPassword
               valueFrom:
                   secretKeyRef:

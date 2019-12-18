@@ -6,19 +6,16 @@ spec:
   version: 7.5.0
   nodeSets:
   - name: default
-    count: 1
+    count: {{ if .Values.global.dev }}1{{ else }}3{{ end }}
     podTemplate:
       spec:
         containers:
         - name: elasticsearch
           env:
           - name: ES_JAVA_OPTS
-            value: {{ if .Values.global.dev }}-Xms512M -Xmx512M{{ else }}-Xms2G -Xmx2G{{ end }}
+            value: {{ if .Values.global.dev }}-Xms384M -Xmx384M{{ else }}-Xms2G -Xmx2G{{ end }}
           resources:
-            requests:
-              memory: {{ if .Values.global.dev }}1Gi{{ else }}4Gi{{ end }}
-            limits:
-              memory: {{ if .Values.global.dev }}1Gi{{ else }}4Gi{{ end }}
+            limits: {}
     config:
       node.master: true
       node.data: true
@@ -32,8 +29,8 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 500M
-          storeageClassName: standard
+              storage: {{ if .Values.global.dev }}500M{{ else }}100Gi{{ end }}
+          storeageClassName: {{ if .Values.global.dev }}standard{{ else }}longhorn{{ end }}
   http:
     tls:
       certificate:

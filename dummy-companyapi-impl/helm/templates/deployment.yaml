@@ -18,6 +18,9 @@ spec:
         - name: dummy-companyapi-impl
           image: streamprocessor_dummy-companyapi-impl
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: -Xms64m -Xmx64m
           envFrom:
             - configMapRef:
                 name: streamprocessor-config

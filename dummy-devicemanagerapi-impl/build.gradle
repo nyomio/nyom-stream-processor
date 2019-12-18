@@ -40,4 +40,7 @@ jib {
     to {
         image = 'streamprocessor_dummy-devicemanagerapi-impl'
     }
+    container {
+        jvmFlags = ['-Xms64m', '-Xmx64m']
+    }
 }

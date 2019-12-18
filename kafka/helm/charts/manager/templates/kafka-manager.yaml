@@ -48,7 +48,7 @@ metadata:
   name: kafka-manager
 spec:
   rules:
-    - host: kafka-manager.k8s.inepex.net
+    - host: kafka-manager-{{ .Release.Name }}.nyomio.local
       http:
         paths:
           - backend:

@@ -22,5 +22,7 @@ spec:
             - configMapRef:
                 name: streamprocessor-config
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: -Xms64m -Xmx64m
             - name: testCompanyApiUrl
               value: http://dummy-companyapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8080

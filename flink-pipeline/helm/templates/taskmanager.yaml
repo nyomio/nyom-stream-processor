@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: flink-taskmanager
 spec:
-  replicas: 2
+  replicas: {{ if .Values.global.dev }}2{{ else }}2{{ end }}
   selector:
     matchLabels:
       app: flink-taskmanager
@@ -18,6 +18,9 @@ spec:
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
           args: ["task-manager", "-Djobmanager.rpc.address=flink-jobmanager"]
           volumeMounts:
+            - name: config-volume
+              mountPath: /opt/flink/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
             - name: certsecret
               mountPath: /opt/flink/cert
               readOnly: true
@@ -27,14 +30,15 @@ spec:
           env:
             - name: keystorePath
               value: /opt/flink/cert/java_keystore.jks
-            #            - name: env.java.opts
-            #              value: "-Xms1000M -Xmx1000M"
             - name: elasticPassword
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.global.elasticId }}-es-elastic-user
                   key: elastic
       volumes:
+        - name: config-volume
+          configMap:
+            name: flink-config
         - name: certsecret
           secret:
             secretName: certsecret

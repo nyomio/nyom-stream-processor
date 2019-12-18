@@ -52,6 +52,8 @@ spec:
               value: -Dlog4j.configuration=file:/etc/kafka/log4j.properties
             - name: JMX_PORT
               value: "5555"
+            - name: KAFKA_HEAP_OPTS
+              value: {{ if .Values.global.dev }}"-Xms196m -Xmx196m"{{ else }}"-Xms512m -Xmx512m"{{ end }}
           ports:
             - name: inside
               containerPort: 9092
@@ -66,17 +68,6 @@ spec:
             preStop:
               exec:
                 command: ["sh", "-ce", "kill -s TERM 1; while $(kill -0 1 2>/dev/null); do sleep 1; done"]
-          {{- if not .Values.global.dev }}
-          resources:
-            requests:
-              cpu: 100m
-              memory: 100Mi
-            limits:
-              # This limit was intentionally set low as a reminder that
-              # the entire Yolean/kubernetes-kafka is meant to be tweaked
-              # before you run production workloads
-              memory: 600Mi
-          {{- end }}
           readinessProbe:
             tcpSocket:
               port: 9092
@@ -103,7 +94,5 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: 300M
-        storageClassName: standard
-#          storage: 10Gi
-#        storageClassName: longhorn
+            storage: {{ if .Values.global.dev }}300M{{ else }}10Gi{{ end }}
+        storageClassName: {{ if .Values.global.dev }}standard{{ else }}longhorn{{ end }}

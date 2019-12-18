@@ -6,6 +6,7 @@ Important. Set docker environment before running this script.
   - minikube: eval $(minikube docker-env)'
 EOF
 
+
 cd ../flink-pipeline/ci
 ./build.sh
 cd ../

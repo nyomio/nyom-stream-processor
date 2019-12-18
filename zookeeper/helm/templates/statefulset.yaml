@@ -32,10 +32,6 @@ spec:
         - name: kubernetes-zookeeper
           imagePullPolicy: Always
           image: "k8s.gcr.io/kubernetes-zookeeper:1.0-3.4.10"
-#          resources:
-#            requests:
-#              memory: "1Gi"
-#              cpu: "0.5"
           ports:
             - containerPort: 2181
               name: client
@@ -57,7 +53,7 @@ spec:
         --tick_time=2000 \
         --init_limit=10 \
         --sync_limit=5 \
-        --heap=512M \
+        --heap={{ if .Values.global.dev }}128M{{ else }}256M{{ end }} \
         --max_client_cnxns=60 \
         --snap_retain_count=3 \
         --purge_interval=12 \
@@ -93,7 +89,5 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: 300M
-        storageClassName: standard
-#            storage: 10Gi
-#        storageClassName: longhorn
+            storage: {{ if .Values.global.dev }}300M{{ else }}10Gi{{ end }}
+        storageClassName: {{ if .Values.global.dev }}standard{{ else }}longhorn{{ end }}
