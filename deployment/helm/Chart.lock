@@ -24,4 +24,4 @@ dependencies:
   repository: file://../../dummy-devicemanagerapi-impl/helm
   version: 0.0.1
 digest: sha256:c11f05cb433222d51c4fbc4e5e2d702168774e06f5a0130306607c3741cf244f
-generated: "2019-12-18T10:38:29.625193217+01:00"
+generated: "2019-12-19T16:52:09.246191697+01:00"

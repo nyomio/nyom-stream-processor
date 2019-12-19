@@ -93,16 +93,16 @@ data:
     # Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the
     # <class-name-of-factory>.
     #
-    # state.backend: filesystem
+    state.backend: filesystem
 
     # Directory for checkpoints filesystem, when using any of the default bundled
     # state backends.
     #
-    # state.checkpoints.dir: hdfs://namenode-host:port/flink-checkpoints
+    state.checkpoints.dir: file:///opt/flink/data/checkpoints/
 
     # Default target directory for savepoints, optional.
     #
-    # state.savepoints.dir: hdfs://namenode-host:port/flink-checkpoints
+    state.savepoints.dir: file:///opt/flink/data/savepoints/
 
     # Flag to enable/disable incremental checkpoints for backends that
     # support incremental checkpoints (like the RocksDB state backend).
@@ -245,3 +245,15 @@ data:
 
     # Interval in milliseconds for refreshing the monitored directories.
     #historyserver.archive.fs.refresh-interval: 10000
+
+    #====
+    # Other
+    #====
+    restart-strategy: none
+  latest_checkpoint_path.sh: |
+    #!/bin/bash
+
+    LATEST_BACKUP_PATH=$(find /opt/flink/data/checkpoints/00000000000000000000000000000001 -maxdepth 1 -regex ".*chk.*" | sort -Vr | head -1)
+    if [[ -n "$LATEST_BACKUP_PATH" ]]; then
+      echo --fromSavepoint file://$LATEST_BACKUP_PATH
+    fi

@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: flink-shared-pvc
+spec:
+   accessModes:
+     - ReadWriteMany
+   resources:
+     requests:
+       storage: {{ if .Values.global.dev }}200M{{ else }}1Gi{{ end }}
+

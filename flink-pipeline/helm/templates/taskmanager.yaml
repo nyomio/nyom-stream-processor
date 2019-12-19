@@ -24,6 +24,8 @@ spec:
             - name: certsecret
               mountPath: /opt/flink/cert
               readOnly: true
+            - name: shared-volume
+              mountPath: /opt/flink/data
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
@@ -42,4 +44,7 @@ spec:
         - name: certsecret
           secret:
             secretName: certsecret
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: flink-shared-pvc
 

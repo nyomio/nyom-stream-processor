@@ -16,8 +16,16 @@ spec:
         - name: jobmanager
           image: streamprocessor_flink-pipeline
           imagePullPolicy: {{ if .Values.global.dev }}Never{{ else }}IfNotPresent{{ end }}
-          args: ["job-cluster", "-Djobmanager.rpc.address=flink-jobmanager",
-                 "-Dparallelism.default=2", "-Dblob.server.port=6124", "-Dqueryable-state.server.ports=6125"]
+          command: ["/bin/bash", "-c"]
+          args:
+            - >
+              /docker-entrypoint.sh job-cluster
+              -Djobmanager.rpc.address=flink-jobmanager
+              -Dparallelism.default=2
+              -Dblob.server.port=6124
+              -Dqueryable-state.server.ports=6125
+              --job-id 00000000000000000000000000000001
+              $(/opt/flink/conf/latest_checkpoint_path.sh)
           ports:
             - containerPort: 6123
               name: rpc
@@ -31,9 +39,14 @@ spec:
             - name: config-volume
               mountPath: /opt/flink/conf/flink-conf.yaml
               subPath: flink-conf.yaml
+            - name: config-volume
+              mountPath: /opt/flink/conf/latest_checkpoint_path.sh
+              subPath: latest_checkpoint_path.sh
             - name: certsecret
               mountPath: /opt/flink/cert
               readOnly: true
+            - name: shared-volume
+              mountPath: /opt/flink/data
           envFrom:
             - configMapRef:
                 name: streamprocessor-config
@@ -51,7 +64,11 @@ spec:
         - name: config-volume
           configMap:
             name: flink-config
+            defaultMode: 0777
         - name: certsecret
           secret:
             secretName: certsecret
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: flink-shared-pvc
 
