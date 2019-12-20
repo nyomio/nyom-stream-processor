@@ -11,7 +11,7 @@ Data processing modules, inluding Apache Flink pipeline, device protocol.
 * nyomio-framework/traefik v2 installed - https://github.com/nyomio/nyomio-framework
 
 ## Getting started - local development
-* execute `$ minikube tunnel` to make traefik accessible using an external i
+* execute `$ minikube tunnel` to make traefik accessible using an external ip
 * register nyomio.local domains in /etc/hosts
   * get the **external** ip of traefik: `$ kubectl get svc -n kube-system traefik-ingress`
   * add an entry to /etc/hosts, replace ip with traefik external ip
