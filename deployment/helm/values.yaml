@@ -1,6 +1,8 @@
 global:
   dev: true
   elasticId: eck
+  # can be "docker", "minikube", "server"
+  clusterType: docker
 
 
 

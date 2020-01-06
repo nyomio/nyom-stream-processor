@@ -16,7 +16,7 @@ spec:
       labels:
         app: zk
     spec:
-    {{- if not .Values.global.dev }}
+      {{- if not .Values.global.dev }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -27,7 +27,7 @@ spec:
                     values:
                       - zk
               topologyKey: "kubernetes.io/hostname"
-    {{- end }}
+      {{- end }}
       containers:
         - name: kubernetes-zookeeper
           imagePullPolicy: Always
@@ -90,4 +90,6 @@ spec:
         resources:
           requests:
             storage: {{ if .Values.global.dev }}300M{{ else }}10Gi{{ end }}
-        storageClassName: {{ if .Values.global.dev }}standard{{ else }}longhorn{{ end }}
+        {{- with .Values.global }}
+        storageClassName: {{ if eq .clusterType "server" }}longhorn{{ else if eq .clusterType "docker" }}hostpath{{ else if eq .clusterType "minikube" }}standard{{ end }}
+        {{- end }}
