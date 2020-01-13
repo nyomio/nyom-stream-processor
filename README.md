@@ -7,7 +7,7 @@ Data processing modules, inluding Apache Flink pipeline, device protocol.
 * Maven
 * Kubernetes cluster. Tested with minikube
 * Helm v3
-* nyomio-framework/certs created - https://github.com/nyomio/nyomio-framework/tree/master/certs
+* nyomio-framework/certs created for your domain - https://github.com/nyomio/nyomio-framework/tree/master/certs
 * nyomio-framework/traefik v2 installed - https://github.com/nyomio/nyomio-framework
 
 ## Getting started - local development

@@ -13,7 +13,7 @@ import java.util.*
 class QueryObjectMappingsAsyncFunction : BaseRichAsyncFunction<Step2_QueryDeviceInfo, Step3_QueryObjectMapping>(){
 
     override fun asyncInvoke2(context: Step2_QueryDeviceInfo, resultFuture: ResultFuture<Step3_QueryObjectMapping>) {
-        if (context.company == null) {
+        if (context.company == null || context.company.apiUrl.isEmpty()) {
             resultFuture.complete(Collections.singleton(Step3_QueryObjectMapping(context,
                     Mapping())))
         } else {
