@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`nyomio-protocol-{{ .Release.Name }}.nyomio.local`)
+    - match: HostSNI(`nyomio-protocol-{{ .Release.Namespace }}.nyomio.local`)
       services:
         - name: nyomio-protocol
           port: 9500

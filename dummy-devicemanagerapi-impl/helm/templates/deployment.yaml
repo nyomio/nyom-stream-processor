@@ -25,4 +25,4 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: -Xms64m -Xmx64m
             - name: testCompanyApiUrl
-              value: http://dummy-companyapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8080
+              value: https://dummy-companyapi-impl-{{ .Release.Namespace }}.nyomio.local

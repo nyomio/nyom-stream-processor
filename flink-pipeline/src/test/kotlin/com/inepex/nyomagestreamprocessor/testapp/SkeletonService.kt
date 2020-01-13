@@ -46,7 +46,7 @@ class SkeletonService
                         Single.just(true)
                     }
                 }
-                .map { sleepWithCauseService.execute(1000, "Elastic document writes") }
+                .map { sleepWithCauseService.execute(2000, "Elastic document writes") }
                 .map {
                     clientFactory.get().use { client ->
                         val searchResponse = client.search(SearchRequest(NyomSchema.NYOM_ELASTIC_INDEX).apply {

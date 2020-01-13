@@ -23,5 +23,5 @@ dependencies:
 - name: streamprocessor-dummy-devicemanagerapi-impl
   repository: file://../../dummy-devicemanagerapi-impl/helm
   version: 0.0.1
-digest: sha256:c11f05cb433222d51c4fbc4e5e2d702168774e06f5a0130306607c3741cf244f
-generated: "2019-12-19T16:52:09.246191697+01:00"
+digest: sha256:93e9a7d88783dcfc75e6cdca9eaddf9e4b4fbd2dbb4389747f60d8ff4508ae39
+generated: "2020-01-13T14:28:00.902682624+01:00"

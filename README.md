@@ -11,12 +11,11 @@ Data processing modules, inluding Apache Flink pipeline, device protocol.
 * nyomio-framework/traefik v2 installed - https://github.com/nyomio/nyomio-framework
 
 ## Getting started - local development
-* execute `$ minikube tunnel` to make traefik accessible using an external ip
 * register nyomio.local domains in /etc/hosts
-  * get the **external** ip of traefik: `$ kubectl get svc -n kube-system traefik-ingress`
-  * add an entry to /etc/hosts, replace ip with traefik external ip
+  * get ip of minikube: `$ minikube ip`
+  * add an entry to /etc/hosts, replace ip with minikube ip
     ```
-    10.102.46.80 kibana-dev.nyomio.local elasticsearch-dev.nyomio.local flink-dev.nyomio.local nyomio-protocol-dev.nyomio.local traefik.nyomio.local dummy-companyapi-impl-dev.nyomio.local dummy-devicemangerapi-impl-dev.nyomio.local kafka-manager-dev.nyomio.local app.nyomio.local sso.nyomio.local
+    10.102.46.80 kibana-dev.nyomio.local elasticsearch-dev.nyomio.local flink-dev.nyomio.local nyomio-protocol-dev.nyomio.local traefik.nyomio.local dummy-companyapi-impl-nyom-stream-processor.nyomio.local dummy-devicemangerapi-impl-nyom-stream-processor.nyomio.local kafka-manager-dev.nyomio.local app.nyomio.local sso.nyomio.local
     ```
   * verify that traefik dashboard can be accessed in the browser: `https://traefik.nyomio.local/` 
   (important: you have to write https)
@@ -31,11 +30,9 @@ Data processing modules, inluding Apache Flink pipeline, device protocol.
   inepexPublishMavenUser=deployment
   inepexPublishMavenPassword=secretpassword
   ```
-* set docker env 
-  * when using minikube: `$ eval $(minikube docker-env)'`
 * build the project
 ```
-$ cd deployment
+$ cd ci
 $ ./build.sh
 ```
   * verify that you're using docker of your kubernetes node, and that docker images were created: `docker images`
@@ -45,7 +42,7 @@ $ ./build.sh
     * streamprocessor_dummy-devicemanagerapi-impl
 * deploy project using helm
 ```
-$ cd deployment
+$ cd ci
 $ ./deploy.sh
 ```
 * verify the following:

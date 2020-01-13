@@ -3,6 +3,8 @@ global:
   elasticId: eck
   # can be "docker", "minikube", "server"
   clusterType: docker
+  flinkEnabled: true
+  deviceManagerUrl: https://dummy-devicemangerapi-impl-default.nyomio.local
 
 
 

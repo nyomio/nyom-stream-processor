@@ -5,7 +5,7 @@ metadata:
   name: kafka-outside-0-ingresstcp
 spec:
   entryPoints:
-    - kafka
+    - kafka1
   routes:
     - match: HostSNI(`*`)
       services:

@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`kibana-{{ .Release.Name }}.nyomio.local`)
+    - match: HostSNI(`kibana-{{ .Release.Namespace }}.nyomio.local`)
       services:
         - name: {{ .Values.global.elasticId }}-kb-http
           port: 5601

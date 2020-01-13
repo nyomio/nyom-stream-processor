@@ -5,7 +5,7 @@ import org.asynchttpclient.Dsl.*;
 
 class HttpClient {
 
-    private val httpClient = asyncHttpClient(config().setIoThreadsCount(2))
+    private val httpClient = asyncHttpClient(config().setIoThreadsCount(2).setUseInsecureTrustManager(true))
 
     fun get(): AsyncHttpClient {
         return httpClient

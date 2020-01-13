@@ -48,7 +48,7 @@ metadata:
   name: kafka-manager
 spec:
   rules:
-    - host: kafka-manager-{{ .Release.Name }}.nyomio.local
+    - host: kafka-manager-{{ .Release.Namespace }}.nyomio.local
       http:
         paths:
           - backend:

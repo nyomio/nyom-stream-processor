@@ -13,4 +13,4 @@ gradle.properties
 
 *.log
 
-keystore.jks
+java_keystore.jks

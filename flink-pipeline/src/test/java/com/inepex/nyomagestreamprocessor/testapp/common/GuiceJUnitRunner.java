@@ -54,17 +54,19 @@ public class GuiceJUnitRunner extends BlockJUnit4ClassRunner {
     }
 
 	private Collection<Class<? extends Module>> getModulesFor(final Class<?> module) throws InitializationError {
-        final GuiceModules annotation = module.getAnnotation(GuiceModules.class);
+        final GuiceModules annotation;
+		annotation = module.getAnnotation(GuiceModules.class);
 
-        return annotation == null ?
+		return annotation == null ?
     		null :
 			asList(annotation.value());
     }
 
 	private Collection<Class<? extends Module>> getModulesFor(final FrameworkMethod method) throws InitializationError {
-        final GuiceModules annotation = method.getAnnotation(GuiceModules.class);
+        final GuiceModules annotation;
+		annotation = method.getAnnotation(GuiceModules.class);
 
-        return annotation == null ?
+		return annotation == null ?
     		null :
 			asList(annotation.value());
     }

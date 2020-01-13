@@ -8,7 +8,7 @@ data:
   keystorePass: developer
   elasticHost: {{ .Values.global.elasticId }}-es-http.{{ .Release.Namespace }}.svc.cluster.local
   elasticUser: elastic
-  deviceManagerUrl: http://dummy-devicemanagerapi-impl.{{ .Release.Namespace }}.svc.cluster.local:8080
+  deviceManagerUrl: {{ .Values.global.deviceManagerUrl }}
 #              valueFrom:
 #                  secretKeyRef:
 #                      name: eck-test-elastic-user

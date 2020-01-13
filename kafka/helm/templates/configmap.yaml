@@ -18,15 +18,16 @@ data:
       SEDS+=("s/#init#broker.rack=#init#/#init#broker.rack=# kubectl not found in path/")
     } && {
       ZONE=$(kubectl get node "$NODE_NAME" -o=go-template='{{`{{index .metadata.labels "failure-domain.beta.kubernetes.io/zone"}}`}}')
-      if [ "x$ZONE" == "x<no value>" ]; then
-        SEDS+=("s/#init#broker.rack=#init#/#init#broker.rack=# zone label not found for node $NODE_NAME/")
-      else
-        SEDS+=("s/#init#broker.rack=#init#/broker.rack=$ZONE/")
-        LABELS="$LABELS kafka-broker-rack=$ZONE"
-      fi
+      # if [ "x$ZONE" == "x<no value>" ]; then
+        #SEDS+=("s/#init#broker.rack=#init#/#init#broker.rack=# zone label not found for node $NODE_NAME/")
+      # else
+        #SEDS+=("s/#init#broker.rack=#init#/broker.rack=$ZONE/")
+        # results an invalid kubectl label command
+        #LABELS="$LABELS kafka-broker-rack=$ZONE"
+      #fi
 
       # to access from IDE when using minikube and port forwarding
-      OUTSIDE_HOST=127.0.0.1
+      OUTSIDE_HOST=traefik.nyomio.local
       #OUTSIDE_HOST=$(kubectl get node "$NODE_NAME" -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
       OUTSIDE_PORT=3240${KAFKA_BROKER_ID}
       SEDS+=("s|#init#advertised.listeners=PLAINTEXT://#init#|advertised.listeners=PLAINTEXT://:9092,OUTSIDE://${OUTSIDE_HOST}:${OUTSIDE_PORT}|")

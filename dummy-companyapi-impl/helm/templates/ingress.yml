@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`dummy-companyapi-impl-{{ .Release.Name }}.nyomio.local`)
+    - match: Host(`dummy-companyapi-impl-{{ .Release.Namespace }}.nyomio.local`)
       kind: Rule
       priority: 1
       services:

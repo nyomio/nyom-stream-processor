@@ -1,13 +1,13 @@
 package com.inepex.nyomagestreamprocessor.config
 
 class Configuration {
-    var elasticHost = "elasticsearch-dev.nyomio.local"
-    var elasticPort = 9200
+    var elasticHost = "elasticsearch-default.nyomio.local"
+    var elasticPort = 443
     var elasticUser = "elastic"
     var elasticPassword = "f2Tt8YXBUJRipRCk"
-    var keystorePath = "keystore.jks"
+    var keystorePath = "java_keystore.jks"
     var keystorePass = "developer"
-    var kafkaAddress = "localhost:32400"
-    var deviceManagerUrl = "http://dummy-devicemangerapi-impl-dev.nyomio.local"
-    var testCompanyApiUrl = "http://dummy-companyapi-impl-dev.nyomio.local"
+    var kafkaAddress = "traefik.nyomio.local:32400"
+    var deviceManagerUrl = "https://dummy-devicemangerapi-impl-default.nyomio.local"
+    var testCompanyApiUrl = "https://dummy-companyapi-impl-default.nyomio.local"
 }

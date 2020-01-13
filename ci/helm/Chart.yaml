@@ -20,6 +20,7 @@ dependencies:
   - name: streamprocessor-flink-pipeline
     version: 0.0.1
     repository: "file://../../flink-pipeline/helm"
+    condition: global.flinkEnabled
   - name: streamprocessor-dummy-companyapi-impl
     version: 0.0.1
     repository: "file://../../dummy-companyapi-impl/helm"
