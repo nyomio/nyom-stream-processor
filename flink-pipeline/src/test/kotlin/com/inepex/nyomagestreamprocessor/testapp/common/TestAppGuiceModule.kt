@@ -6,6 +6,7 @@ import com.inepex.nyomagestreamprocessor.GuiceModule
 class TestAppGuiceModule : AbstractModule() {
     override fun configure() {
         System.setProperty("LogstashTcpSocketAppender", "localhost:4560")
-        install(GuiceModule("tiborsomodi"))
+        install(GuiceModule("tiborsomodi", startLocalFlinkEnv = true,
+                parseEnvVarsForConfig = false))
     }
 }
