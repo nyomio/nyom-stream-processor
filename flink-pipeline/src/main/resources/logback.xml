@@ -16,19 +16,19 @@
     </encoder>
   </appender>
 
-  <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-    <destination>${logstashAddress:-localhost:4560}</destination>
-    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-      <customFields>{
-        "appId" : "${APP_ID}"
-        }
-      </customFields>
-    </encoder>
-  </appender>
+<!--  <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+<!--    <destination>${logstashAddress:-localhost:4560}</destination>-->
+<!--    <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+<!--      <customFields>{-->
+<!--        "appId" : "${APP_ID}"-->
+<!--        }-->
+<!--      </customFields>-->
+<!--    </encoder>-->
+<!--  </appender>-->
 
   <root level="info">
-    <appender-ref ref="stash"/>
-    <appender-ref ref="file"/>
+<!--    <appender-ref ref="stash"/>-->
+<!--    <appender-ref ref="file"/>-->
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

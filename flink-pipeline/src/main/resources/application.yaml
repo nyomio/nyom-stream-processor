@@ -1,0 +1,20 @@
+nyomApp:
+  deviceManagerUrl: ${deviceManagerUrl}
+micronaut:
+  http:
+    client:
+      ssl:
+        enable: true
+        key-store:
+          path: file:${keystorePath}
+          password: developer
+          type: JKS
+  security:
+    enabled: true
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_SECRET_KEY}

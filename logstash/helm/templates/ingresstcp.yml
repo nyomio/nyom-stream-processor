@@ -4,7 +4,7 @@ metadata:
   name: logstash-ingresstcp
 spec:
   entryPoints:
-    - logging-logstash
+    - logstash
   routes:
     - match: HostSNI(`*`)
       services:

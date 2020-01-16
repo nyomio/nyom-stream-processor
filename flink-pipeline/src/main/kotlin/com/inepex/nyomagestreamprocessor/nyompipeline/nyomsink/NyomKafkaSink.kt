@@ -17,7 +17,7 @@ class NyomKafkaSink : FlinkKafkaProducer<Step4_MapIncomingNyom>(Schema.GENERATED
         Properties().apply {
             setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, Dependencies.get().config.kafkaAddress)
             setProperty(ProducerConfig.ACKS_CONFIG, "all") // wait for all replicas to ack
-            setProperty(ProducerConfig.LINGER_MS_CONFIG, "100") // send delay (ms)
+            setProperty(ProducerConfig.LINGER_MS_CONFIG, "10000") // send delay (ms)
             setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384") // batch size (Kb)
             setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true") // exactly once delivery
             setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5") // max nr of unacknowledged requests

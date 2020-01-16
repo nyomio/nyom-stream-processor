@@ -7,6 +7,7 @@ data:
   logstashAddress: logging-logstash.{{ .Release.Namespace }}.svc.cluster.local:4560
   keystorePass: developer
   elasticHost: {{ .Values.global.elasticId }}-es-http.{{ .Release.Namespace }}.svc.cluster.local
+  elasticPort: "9200"
   elasticUser: elastic
   deviceManagerUrl: {{ .Values.global.deviceManagerUrl }}
 #              valueFrom:

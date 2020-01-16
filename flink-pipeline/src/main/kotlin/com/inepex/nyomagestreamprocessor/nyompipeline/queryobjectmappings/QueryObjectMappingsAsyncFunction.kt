@@ -13,13 +13,13 @@ import java.util.*
 class QueryObjectMappingsAsyncFunction : BaseRichAsyncFunction<Step2_QueryDeviceInfo, Step3_QueryObjectMapping>(){
 
     override fun asyncInvoke2(context: Step2_QueryDeviceInfo, resultFuture: ResultFuture<Step3_QueryObjectMapping>) {
-        if (context.company == null || context.company.apiUrl.isEmpty()) {
+        if (context.organization == null || context.organization.apiUrl.isEmpty()) {
             resultFuture.complete(Collections.singleton(Step3_QueryObjectMapping(context,
                     Mapping())))
         } else {
             val mdcContext = MDC.getCopyOfContextMap()
             Dependencies.get().deviceToObjectMappingCache.getMappingsForDeviceAtTime(
-                    context.company.id, context.company.apiUrl, context.device.id,
+                    context.organization.id, context.organization.apiUrl, context.device.id,
                     context.incomingNyomEntry.getTimestamp()).thenAcceptAsync {
                 MDC.setContextMap(mdcContext)
 

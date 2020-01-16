@@ -10,7 +10,7 @@ spec:
       kind: Rule
       priority: 1
       services:
-        - name: flink-jobmanager
+        - name: flink-pipeline-dev
           port: 8081
   tls:
     secretName: certsecret

@@ -76,7 +76,7 @@ class DummyIncomingNyomProducerApp
 class DummyIncomingNyomProducerAppGuiceModule constructor(): AbstractModule() {
 
     override fun configure() {
-        bind(Configuration::class.java).toInstance(ConfigurationBuilderService.build(null))
+        bind(Configuration::class.java).toInstance(ConfigurationBuilderService.build(false, null))
         bind(Logger::class.java).toInstance(Logger())
     }
 }

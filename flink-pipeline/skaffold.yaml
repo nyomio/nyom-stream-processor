@@ -1,0 +1,15 @@
+apiVersion: skaffold/v1beta17
+kind: Config
+build:
+  artifacts:
+  - image: nyomio-nyom-stream-processor-flink-pipeline-skaffold
+    context: .
+    jib: {}
+  local:
+    useDockerCLI: true
+    useBuildkit: true
+    push: false
+deploy:
+  kubectl:
+    manifests:
+      - skaffold/k8s/*.yml

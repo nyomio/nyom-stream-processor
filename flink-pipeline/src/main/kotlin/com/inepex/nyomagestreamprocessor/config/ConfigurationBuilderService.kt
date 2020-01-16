@@ -2,14 +2,16 @@ package com.inepex.nyomagestreamprocessor.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.jvm.javaType
 
 class ConfigurationBuilderService {
 
     companion object {
-        fun build(runningInIDEWithProfile: String?): Configuration {
-            return if (runningInIDEWithProfile != null) parseYaml(runningInIDEWithProfile)
+        fun build(parseEnvVars: Boolean, runningInIDEWithProfile: String?): Configuration {
+            return if (!parseEnvVars) parseYaml(runningInIDEWithProfile!!)
             else parseEnvironmentVariables()
         }
 
@@ -28,7 +30,10 @@ class ConfigurationBuilderService {
                     val tmp = System.getenv(it.name)
                     if (tmp != null) {
                         it as KMutableProperty<*>
-                        it.setter.call(this, tmp)
+                        when (it.returnType.javaType.typeName) {
+                            "int" -> it.setter.call(this, tmp.toInt())
+                            else -> it.setter.call(this, tmp)
+                        }
                     }
                 }
             }

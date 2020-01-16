@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import com.google.inject.Singleton
 import com.inepex.nyomagestreamprocessor.logger.Logger
 import com.inepex.nyomagestreamprocessor.nyompipeline.Pipeline
+import org.apache.flink.api.common.restartstrategy.RestartStrategies
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.environment.CheckpointConfig
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
@@ -17,7 +18,6 @@ class PipelinesExecutorService @Inject constructor(
 ){
 
     fun execute(setKafkaOffsetToEarliest: Boolean = false) {
-        env.parallelism = 2
         env.streamTimeCharacteristic = TimeCharacteristic.ProcessingTime
         env.enableCheckpointing(30000)
         env.checkpointConfig.enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION)
